@@ -21,8 +21,8 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import cc.ltech.ivalley.R;
-import cc.ltech.ivalley.utils.FTPUtils;
+import cc.xxx.xxx.R;
+import cc.xxx.xxx.utils.FTPUtils;
 
 public class FTPActivity extends AppCompatActivity implements View.OnClickListener {
 
