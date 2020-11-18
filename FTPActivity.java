@@ -41,18 +41,6 @@ public class FTPActivity extends AppCompatActivity implements View.OnClickListen
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        InitFTPServerSetting();
-    }
-
-    private void InitFTPServerSetting() {
-        ftpUtils = FTPUtils.getInstance();
-        boolean flag = ftpUtils.initFTPSetting("", 21, "", "");
-        // 安卓设备的网络
-//        boolean flag = ftpUtils.initFTPSetting("", 21, "", "");
-        if (!flag) {
-            ToastUtils.showLong("FTP 连接失败");
-        }
-        Log.d(TAG, "InitFTPServerSetting: " + flag);
     }
 
     @Override
@@ -89,6 +77,15 @@ public class FTPActivity extends AppCompatActivity implements View.OnClickListen
     private void uploadFile(File file) {
         try {
 
+            FTPUtils ftpUtils = FTPUtils.getInstance();
+            boolean flag = ftpUtils.initFTPSetting("", 21, "", "");
+            // 安卓设备的网络
+//        boolean flag = ftpUtils.initFTPSetting("", 21, "", "");
+            if (!flag) {
+                ToastUtils.showLong("FTP 连接失败");
+                return;
+            }
+
             Date date = new Date();
             @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -118,7 +115,7 @@ public class FTPActivity extends AppCompatActivity implements View.OnClickListen
             FileInputStream fileInputStream = new FileInputStream(file);
             OutputStream outputStream = ftpUtils.ftpClient.storeFileStream(newFileName);
             while ((n = fileInputStream.read(buffer)) != -1) {
-                outputStream.write(buffer);
+                outputStream.write(buffer, 0 , n);
                 trans += n;
                 double percent = trans * 1.0 / len * 100;
                 Log.d(TAG, "文件: " + fileName + " " + "进度: " + String.format("%.2f", percent) + "%");
