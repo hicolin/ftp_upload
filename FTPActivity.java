@@ -115,7 +115,7 @@ public class FTPActivity extends AppCompatActivity implements View.OnClickListen
             FileInputStream fileInputStream = new FileInputStream(file);
             OutputStream outputStream = ftpUtils.ftpClient.storeFileStream(newFileName);
             while ((n = fileInputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0 , n);
+                outputStream.write(buffer);
                 trans += n;
                 double percent = trans * 1.0 / len * 100;
                 Log.d(TAG, "文件: " + fileName + " " + "进度: " + String.format("%.2f", percent) + "%");
